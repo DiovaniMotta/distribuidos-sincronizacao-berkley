@@ -1,6 +1,7 @@
 package br.com.furb.distribuidos.berkley.sockets;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -23,11 +24,17 @@ public class ClientBerkleySocket extends AbstractBerkleySocket {
 
 	@Override
 	public void send() {
+			
 	}
 
 	@Override
 	public void receive() {
-	
+		try {
+			PrintStream escrita = new PrintStream(socket.getOutputStream());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 }

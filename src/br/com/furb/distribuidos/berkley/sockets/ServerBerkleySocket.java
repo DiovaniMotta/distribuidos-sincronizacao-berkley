@@ -29,7 +29,7 @@ public class ServerBerkleySocket extends AbstractBerkleySocket {
 				PrintStream escrita = new PrintStream(socket.getOutputStream());
 				Scanner leitura = new Scanner(socket.getInputStream());
 				while (leitura.hasNext()) {
-						
+				
 				}
 				configuration.dec();
 			}
