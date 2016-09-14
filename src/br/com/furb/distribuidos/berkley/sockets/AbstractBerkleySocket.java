@@ -16,9 +16,7 @@ public abstract class AbstractBerkleySocket {
 		this.configuration = configuration;
 	}
 
-	public void now(){
-		current = new Date();
-	}
+	public abstract void now();
 	
 	public abstract void connect();
     

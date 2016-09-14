@@ -5,6 +5,10 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.util.Scanner;
 
+import br.com.furb.distribuidos.berkley.message.Message;
+import br.com.furb.distribuidos.berkley.message.factory.MessageFactory;
+import br.com.furb.distribuidos.berkley.message.factory.MessageFactory.TypeMessage;
+
 public class ServerBerkleySocket extends AbstractBerkleySocket {
 
 	public ServerBerkleySocket(Configuration configuration) {
@@ -24,12 +28,17 @@ public class ServerBerkleySocket extends AbstractBerkleySocket {
 	@SuppressWarnings("resource")
 	public void send() {
 		try {
-			while (configuration.getTimeOut() > 0) {
+			if(configuration.getTimeOut() > 0) {
+				socket = server.accept();
 				System.out.println("Server Connected: "+ socket.getInetAddress().getHostName());
 				PrintStream escrita = new PrintStream(socket.getOutputStream());
 				Scanner leitura = new Scanner(socket.getInputStream());
 				while (leitura.hasNext()) {
-				
+					Message message = MessageFactory.getFactory(TypeMessage.SEND).getMessage();
+					String retorno = message.split(leitura.nextLine());
+					
+					message.addTime(current);
+					escrita.print(message.message());
 				}
 				configuration.dec();
 			}
