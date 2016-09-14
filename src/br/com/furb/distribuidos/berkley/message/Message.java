@@ -11,7 +11,7 @@ public abstract class Message {
 	public static String SEND = new String("#SEND:");
 	public static String RECEIVE = new String("#RECEIVE:");
 	protected static String AJUST = new String("_AJUST");
-	protected static String SYNCHRONIZED = new String("_SYNCHRONIZED");
+	protected static String CONNECT = new String("_CONNECT");
 	
 	public void addTime(Date date){
 		DateTimeFormatter formatador = 

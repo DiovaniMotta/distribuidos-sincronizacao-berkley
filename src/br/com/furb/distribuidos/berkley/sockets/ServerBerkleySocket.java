@@ -8,11 +8,16 @@ import java.util.Scanner;
 import br.com.furb.distribuidos.berkley.message.Message;
 import br.com.furb.distribuidos.berkley.message.factory.MessageFactory;
 import br.com.furb.distribuidos.berkley.message.factory.MessageFactory.TypeMessage;
+import br.com.furb.distribuidos.berkley.queue.Client;
+import br.com.furb.distribuidos.berkley.queue.QueueClient;
 
 public class ServerBerkleySocket extends AbstractBerkleySocket {
 
+	protected QueueClient queueClient;
+	
 	public ServerBerkleySocket(Configuration configuration) {
 		super(configuration);
+		queueClient = new QueueClient();
 	}
 
 	@Override
@@ -25,12 +30,17 @@ public class ServerBerkleySocket extends AbstractBerkleySocket {
 	}
 
 	@Override
-	@SuppressWarnings("resource")
 	public void send() {
+	
+	}
+
+	@Override
+	public void receive() {
 		try {
 			if(configuration.getTimeOut() > 0) {
 				socket = server.accept();
-				System.out.println("Server Connected: "+ socket.getInetAddress().getHostName());
+				Client client = new Client(socket.getInetAddress().getHostName(),true);
+				queueClient.add(client);
 				PrintStream escrita = new PrintStream(socket.getOutputStream());
 				Scanner leitura = new Scanner(socket.getInputStream());
 				while (leitura.hasNext()) {
@@ -47,10 +57,5 @@ public class ServerBerkleySocket extends AbstractBerkleySocket {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void receive() {
-
 	}
 }
